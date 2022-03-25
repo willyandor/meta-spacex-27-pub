@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="description" content="从Bear开始的Meta Space～"><meta name="keyword"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>关于ERC-1155和meta server的讨论</title><link rel="shortcut icon" href="https://storageapi.fleek.co/casimir-crystal-team-bucket/metanetwork/users/metaio-storage/favicon.ico" type="image/x-icon"><link href="/styles/site.css" rel="stylesheet"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Andoroyur27-1" type="application/atom+xml">
+</head><body><header class="container" id="header"><div class="header"><div class="header-left"><div class="avatar"><img src="/images/MetaSpace_Logo.svg"></div><div class="author"><div class="author-name"><a href="/">Andoroyur27-1</a></div><div class="about-me">X-Space-Bear-27-5🚀</div></div></div><div class="header-right"><ul class="navigation"><li><a href="/archives">归档</a></li></ul></div></div><div class="about-me-wrap"><div class="about-header"> <div class="about__title">About</div><a class="domain">andoroyur27.metaspaces.life</a></div><div class="about-content">从Bear开始的Meta Space～</div><div class="about-author"><span>Author</span><div class="profile"> <div class="avatar"><img src="https://storageapi.fleek.co/andoroyur-team-bucket/metanetwork/users/metaio-storage/gen-universe1-256.bmp"></div><div class="author-name">andoroyur</div></div></div></div></header><div class="container post"><section class="article"><div class="title">关于ERC-1155和meta server的讨论</div><div class="meta"> <div class="profile"> <div class="avatar"><img src="https://storageapi.fleek.co/andoroyur-team-bucket/metanetwork/users/metaio-storage/gen-universe1-256.bmp"></div><div class="author-name">andoroyur</div></div><div class="date meta-ele">March 24th 2022</div></div><div class="content"><p><strong>garfield550</strong></p>
+<p>这是两个部分了，游戏开发者确实要与我们的合约做一次交互，它才能被别人打赏。</p>
+<p>或者购买。</p>
+<p><strong>WhyYouAre</strong></p>
+<p>是的</p>
+<p>主要是让买的时候的支付要能给创作者</p>
+<p><strong>garfield550</strong></p>
+<p>嗯，是。**</p>
+<p><strong>WhyYouAre</strong></p>
+<p>如果游戏名/id 这个关键信息只在服务器，就有黑幕了</p>
+<p>所以一定要在合约的</p>
+<p>就是原始意义的以游戏为单位的账本</p>
+<p>另外如果用 1155，确认一下 metadataURI 指到什么地方</p>
+<p>常见的做法那个 id 是个自增的东西吧</p>
+<p><strong>garfield550</strong></p>
+<p>是自增。</p>
+<p><strong>WhyYouAre</strong></p>
+<p>确定这些东西能满足我们需求的话，剩下的部分应该是有比较成熟的方案，能串起来就好了</p>
+<p><strong>garfield550</strong></p>
+<p>嗯，下周调研和应用这些。</p>
+<p>这周剩下的时间我去看看那些 NFT 1155 的平台是怎么做的。</p>
+<p>对 1155 的一些需要的东西整理一下，比如合约结构， metadata server 之类的。</p>
+<p><strong>WhyYouAre</strong></p>
+<p>签出 jwt 的时候 aud 按 nft 情况来</p>
+<p><strong>这个再加上 refresh 机制 + 监听事件的话，aud 也能算比较实时了。jwt 可以设置得有效期特别短。比如 1 分钟，就算把 NFT 卖了，确实还能多访问到 1 分钟，在这个场景下也还可以接受</strong></p>
+<p><strong>garfield550</strong></p>
+<p>1 分钟属实有点短。**</p>
+<p><strong>WhyYouAre</strong></p>
+<p>这个模式如果改出类似订阅制，就是发有效期和订阅周期匹配的 jwt 就行</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://matrix.to/#/!ubeXIjrjxOOHqRyCaI:matrix.org/$D4nj9p6vVj8dDzhkEbxTCkUCNn0_dvdotQlu1PBUBnY?via=matrix.org">garfield550<strong>1 分钟属实有点短。</strong></a></p>
+</blockquote>
+<p><strong>是，举个比较极端的例子</strong></p>
+<p>一般的 15～30 分钟在这个场景下也没所谓的，其实让玩家卖了还能玩一会儿未必是什么坏事</p>
+<p>** garfield550 **</p>
+<p>对 1155 的一些需要的东西整理一下，比如合约结构， metadata server 之类的。</p>
+<p>metadata-server 如果挂了 metadata 就拿不到也挺那啥的了。所以应该是能通过某种治理修改，然后实现是开源的 gateway</p>
+<p><strong>garfield550</strong></p>
+<p>我印象里别人的实现就是一个 ID 对应 IPFS CID 的表。**</p>
+<p><strong>WhyYouAre</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://matrix.to/#/!ubeXIjrjxOOHqRyCaI:matrix.org/$rmg8Zjh4P_FY2u95TajIbY1_8DKSw3EovDy7_U_znd4?via=matrix.org">garfield550<strong>我印象里别人的实现就是一个 ID 对应 IPFS CID 的表。</strong></a></p>
+</blockquote>
+<p>应该是。gateway 只负责 map 到 IPFS/arweave 这样永在网。比如 W3ITCH 交给社区/DAO 了，投票决定用 metadata.w3itch.xyz 之类的了，产生修改了，然后社区去把这个服务器搭起来，DNS 啥的搞好</p>
+<p><strong>garfield550</strong></p>
+<p>metadata 是 IPFS 的 CID 存储的，然后 metadata-server 是一个按照 1155 ID 匹配 CID 的服务器。</p>
+<p><strong>WhyYouAre</strong></p>
+<p>而且这个信息是可以一直公开的</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://matrix.to/#/!ubeXIjrjxOOHqRyCaI:matrix.org/$X3sE8cOIzpHY85-mCtG_83c6CqzUTz_p4tnt-NWW7Xk?via=matrix.org">garfield550<strong>metadata 是 IPFS 的 CID 存储的，然后 metadata-server 是一个按照 1155 ID 匹配 CID 的服务器。</strong></a></p>
+</blockquote>
+<p><strong>是</strong></p>
+<p>只是因为链不好做索引所以需要这种服务器，里面的 id-&gt;cid 数据公开也是正常的 🤔</p>
+<p><strong>garfield550</strong></p>
+<p>虽然 maven 的 metadata 是在 MySQL 里的（</p>
+<p><strong>WhyYouAre</strong></p>
+<p>比如 id-&gt;cid 同时也写到链里去了，服务器本身开源，初始化的时候从链数据重新构建数据库/缓存也是可以的</p>
+<p>这样其实另外搭建和 1155 配套的 metadata server 都是可以的，只是合约里的 metadataURI 没指过来而已</p>
+</div><div class="tags"></div></section></div><div class="container"><ul class="nav"><li>上一篇：<a href="/2022/03/24/%E5%85%B3%E4%BA%8E%E5%8E%9F%E4%BD%9C%E8%80%85%E7%BB%B4%E6%9D%83/">关于原作者维权</a></li><li>下一篇：<a href="/2022/03/24/W3itchGames%E5%90%88%E7%BA%A6%E6%80%9D%E8%B7%AF%E6%A2%B3%E7%90%86/">W3itchGames合约思路梳理</a></li></ul></div><div id="backToTop"><div class="back-arrow back-arrow-left"></div><div class="back-arrow back-arrow-right"></div></div><footer class="container"><div class="rights"><span>Powered by </span><a href="http://hexo.io" target="_blank">Hexo </a><span>&</span><a href="https://www.metaspaces.me/" target="_blank"> Meta Space</a><span>, Theme </span><a href="https://github.com/gary-Shen/hexo-theme-bear" target="_blank">Bear</a><span>.</span><div> <a href="https://www.metanetwork.online/" target="_blank">Meta Network </a><span>| </span><a href="https://meta-io.gitbook.io/meta-wiki/how-to-use/how-to-build-your-own-meta-space" target="_blank">Meta Wiki</a></div></div></footer>
+<script src="/script/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/script/index.js"></script>
+
+<script src="/script/post.js"></script>
+</body></html>
